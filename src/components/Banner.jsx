@@ -1,12 +1,12 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";
+import { MOVIE_API, IMAGE_URL, REQUESTS } from "../constants/url";
 
 const navigation = { name: "Movie App", href: "/" };
 const API_KEY = process.env.REACT_APP_API_KEY;
-const url = `https://api.themoviedb.org/3/movie/550?api_key=${API_KEY}`;
-const image_url = "https://image.tmdb.org/t/p/w500/";
+const url = MOVIE_API + REQUESTS[0].value + API_KEY;
 
 export default function Header() {
   const [movie, setMovie] = useState({
@@ -14,18 +14,38 @@ export default function Header() {
     overview: "",
     image: "",
   });
+  const [navbar, setNavbar] = useState(false);
 
   const getBg = async () => {
     const result = await axios.get(url);
-    if (result?.data) {
+    if (result?.data?.results) {
+      let selectedMovie = 0;
+      if (
+        result?.data?.results[selectedMovie]?.original_name !== undefined &&
+        result?.data?.results[selectedMovie]?.original_name.length > 0 &&
+        result?.data?.results[selectedMovie]?.overview !== undefined &&
+        result?.data?.results[selectedMovie]?.overview.length > 0 &&
+        result?.data?.results[selectedMovie]?.backdrop_path !== undefined &&
+        result?.data?.results[selectedMovie]?.backdrop_path.length > 0
+      ) {
+        selectedMovie = Math.floor(
+          Math.random() * result?.data?.results.length - 1
+        );
+      }
       setMovie((prevState) => ({
         ...prevState,
-        title: result?.data?.original_title,
-        overview: result?.data?.overview,
-        image: image_url + result?.data?.backdrop_path,
+        title: result?.data?.results[selectedMovie]?.original_name,
+        overview: result?.data?.results[selectedMovie]?.overview,
+        image: IMAGE_URL + result?.data?.results[selectedMovie]?.backdrop_path,
       }));
     }
   };
+
+  const changeBackground = () => {
+    window.scrollY > 100 ? setNavbar(true) : setNavbar(false);
+  };
+
+  window.addEventListener("scroll", changeBackground);
 
   useEffect(() => {
     getBg();
@@ -47,10 +67,14 @@ export default function Header() {
       ) : (
         <div
           style={{ backgroundImage: `url(${movie.image})` }}
-          className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8 bg-no-repeat w-full h-full bg-cover"
+          className="bg-no-repeat w-full h-full bg-cover"
         >
-          <div className="flex h-16 justify-between">
-            <div className="flex px-2 lg:px-0">
+          <div
+            className={`sticky top-0 z-50 flex h-16 justify-between ${
+              navbar ? "bg-black" : ""
+            }`}
+          >
+            <div className="flex px-4">
               <div className="flex flex-shrink-0 items-center">
                 <a
                   href={navigation.href}
@@ -68,21 +92,21 @@ export default function Header() {
                       Search
                     </label>
                     <MagnifyingGlassIcon
-                      className="h-5 w-5 text-gray-400"
+                      className="h-8 w-8 text-gray-400"
                       aria-hidden="true"
                     />
                   </div>
                   <input
                     id="search"
                     name="search"
-                    className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                    className="border-none block w-full rounded-md bg-transparent py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                     type="search"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-3">
+          <div className="grid grid-cols-3 px-4">
             <div>
               <div className="flex w-full items-center justify-between border-b border-indigo-500 pt-24 lg:border-none">
                 <div className="flex items-center">
@@ -98,13 +122,13 @@ export default function Header() {
                   <div className="space-x-4">
                     <a
                       href="#"
-                      className="inline-block rounded-md border border-transparent bg-white py-2 px-4 text-base font-medium text-header_blue hover:bg-opacity-75"
+                      className="inline-block rounded-md border border-transparent bg-[#4a525c] py-2 px-4 text-base font-medium text-white hover:bg-opacity-75"
                     >
                       Play
                     </a>
                     <a
                       href="#"
-                      className="inline-block rounded-md border border-transparent bg-white py-2 px-4 text-base font-medium text-header_blue hover:bg-blue-50"
+                      className="inline-block rounded-md border border-transparent bg-[#4a525c] py-2 px-4 text-base font-medium text-white hover:bg-opacity-50"
                     >
                       My List
                     </a>

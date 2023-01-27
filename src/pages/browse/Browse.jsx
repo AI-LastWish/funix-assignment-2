@@ -1,6 +1,6 @@
 import React from "react";
-import Content from "../../components/Content";
-import Header from "../../components/Header";
+import MovieList from "../../components/MovieList";
+import Banner from "../../components/Banner";
 
 const movies = [
   {
@@ -68,8 +68,8 @@ const movies = [
 function Browse() {
   return (
     <div className="app">
-      <Header />
-      <Content movies={movies} />
+      <Banner />
+      <MovieList movies={movies} />
     </div>
   );
 }
