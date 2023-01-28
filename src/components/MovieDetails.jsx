@@ -41,7 +41,7 @@ export default function MovieDetails({ film, filmId }) {
           <div className="flex items-center">
             <div className="hidden lg:block">
               <p className="text-4xl font-bold text-white hover:text-indigo-50">
-                {film?.original_title}
+                {film?.original_title || film?.original_name}
               </p>
             </div>
           </div>

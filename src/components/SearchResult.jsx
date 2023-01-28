@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { MOVIE_API, SEARCH_URL } from "../constants/url";
 import { ColorRing } from "react-loader-spinner";
-import Movie from "./Movie";
 import ResultTemplate from "./ResultTemplate";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
