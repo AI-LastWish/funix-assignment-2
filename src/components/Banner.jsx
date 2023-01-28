@@ -67,7 +67,7 @@ export default function Header() {
       ) : (
         <div
           style={{ backgroundImage: `url(${movie.image})` }}
-          className="bg-no-repeat w-full h-full bg-cover"
+          className="bg-no-repeat w-full h-full bg-cover object-cover"
         >
           <div
             className={`sticky top-0 z-50 flex h-16 justify-between ${

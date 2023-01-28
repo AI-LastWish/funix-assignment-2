@@ -19,6 +19,7 @@ const MovieList = () => {
         }
       })
     );
+    console.log("temp", temp);
     setMovies(temp);
   };
 
@@ -41,8 +42,12 @@ const MovieList = () => {
         </div>
       ) : (
         <div className="bg-black py-8">
-          {movies.map((movie) => (
-            <Movie key={movie.key} genre={movie.key} films={movie.value} />
+          {REQUESTS.map((req) => (
+            <Movie
+              key={req.key}
+              genre={req.key}
+              films={movies.filter((m) => m.key == req.key)[0].value}
+            />
           ))}
         </div>
       )}
