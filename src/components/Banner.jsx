@@ -3,18 +3,24 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";
 import { MOVIE_API, IMAGE_URL, REQUESTS } from "../constants/url";
+import Modal from "./Modal";
 
 const navigation = { name: "Movie App", href: "/" };
 const API_KEY = process.env.REACT_APP_API_KEY;
 const url = MOVIE_API + REQUESTS[0].value + API_KEY;
 
 export default function Header() {
+  const [showModal, setShowModal] = useState(false);
   const [movie, setMovie] = useState({
     title: "",
     overview: "",
     image: "",
   });
   const [navbar, setNavbar] = useState(false);
+
+  const handleShowModal = (modal) => {
+    setShowModal(modal);
+  };
 
   const getBg = async () => {
     const result = await axios.get(url);
@@ -49,6 +55,7 @@ export default function Header() {
 
   useEffect(() => {
     getBg();
+    if(window.location.search.substring(7,) !== '') handleShowModal(true)
   }, []);
 
   return (
@@ -87,21 +94,16 @@ export default function Header() {
             <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
               <div className="w-full max-w-lg lg:max-w-xs">
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                    <label htmlFor="search" className="sr-only">
-                      Search
-                    </label>
+                  <button
+                    className="absolute inset-y-0 right-0 flex items-center pr-3"
+                    type="button"
+                    onClick={() => handleShowModal(true)}
+                  >
                     <MagnifyingGlassIcon
                       className="h-8 w-8 text-gray-400"
                       aria-hidden="true"
                     />
-                  </div>
-                  <input
-                    id="search"
-                    name="search"
-                    className="border-none block w-full rounded-md bg-transparent py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                    type="search"
-                  />
+                  </button>
                 </div>
               </div>
             </div>
@@ -146,6 +148,9 @@ export default function Header() {
               </div>
             </div>
           </div>
+          {showModal ? (
+            <Modal open={showModal} setOpen={handleShowModal} />
+          ) : null}
         </div>
       )}
     </>

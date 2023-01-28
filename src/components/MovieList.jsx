@@ -19,7 +19,7 @@ const MovieList = () => {
         }
       })
     );
-    console.log("temp", temp);
+    console.log('temp', temp)
     setMovies(temp);
   };
 

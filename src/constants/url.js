@@ -1,5 +1,6 @@
 export const MOVIE_API = "https://api.themoviedb.org/3";
 export const IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
+export const SEARCH_URL = "/search/movie?language=en-US&api_key=";
 export const ENDPOINT_TO_TITLE = {
   fetchTrending: "",
   fetchNetflixOriginals: "Xu hướng",
@@ -37,5 +38,4 @@ export const REQUESTS = [
     key: "fetchDocumentaries",
     value: "/discover/movie?with_genres=99&api_key=",
   },
-  // { key: "fetchSearch", value: "/search/movie?language=en-US&query=&api_key=" },
 ];
