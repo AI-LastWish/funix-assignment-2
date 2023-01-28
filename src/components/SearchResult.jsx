@@ -20,7 +20,7 @@ const SearchResult = () => {
         MOVIE_API + SEARCH_URL + API_KEY + `&query=${defaultSearch}`
       );
       const res = result?.data?.results;
-      console.log("res", result);
+
       if (res && res.length > 0) {
         setMovies(res);
       }
@@ -35,7 +35,6 @@ const SearchResult = () => {
 
   return (
     <>
-      <p>{movies.length}</p>
       {movies.length > 0 ? (
         <div className="bg-black py-8">
           {/* <Movie genre="Search Result" films={movies} /> */}
